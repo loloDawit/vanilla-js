@@ -29,14 +29,19 @@ return new Promise((resolve, reject) =>{
 const create = (newStore) =>{
     return new Promise((resolve, reject) =>{
         data.push(newStore);
-        saveDataToFile('./data.js', data);
+        saveDataToFile('./data.json', data);
         resolve(newStore);
-    }
-
-    )
-
+    })
 }
+ // update a store
+ const update = (id, store) => {
+   return new Promise((resolve, reject) =>{
+     const findStore = data.findIndexOf((store) => store.storeNo === id);
+     data[findStore] = {...store}; // more explaniation
+     saveDataToFile('./data.json', data);
+     resolve(data);
+   })
+ }
 
 
-
-module.exports = { findAll, findById, create };
+module.exports = { findAll, findById, create, update };

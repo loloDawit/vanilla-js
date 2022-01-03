@@ -1,4 +1,4 @@
-const {helper} = require('../helper');
+const { helper } = require('../helper');
 const Store = require('../models/storeModels');
 
 const getAllStores = async (req, res) => {
@@ -36,6 +36,30 @@ const createStore = async (req, res) => {
     res.end();
   } catch (error) {
     console.log(error);
+  };
+}
+
+  const updateStore = async (req, res, id) => {
+    // if the store exists, update the requested information
+    // if not log an error with message
+    try {
+      const store = await Store.findById(id); // finding the store using storeNo
+      if (!store) {
+        res.statusCode = 404;
+        res.setHeader('Content-Type', 'application/json');
+        res.write(JSON.stringify({ errorMessage: 'Store Not Found!' }));
+        res.end();
+      } else {
+        const body = await helper(req);
+        const updateStore = await Store.update(id, JSON.parse(body));
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.write(JSON.stringify(updateStore));
+        res.end();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
-};
-module.exports = { getAllStores, getStoreById, createStore };
+
+module.exports = { getAllStores, getStoreById, createStore, updateStore };
