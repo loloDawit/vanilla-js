@@ -1,9 +1,11 @@
 const http = require('http');
-const {getAllStores, getStoreById} = require('./controllers/storeController');
+const {getAllStores, getStoreById, createStore} = require('./controllers/storeController');
 
 const PORT = 500;
 
 const server = http.createServer((req, res) => {
+    console.log(req.url);
+    console.log(req.method);
   if (req.url === '/api/v1/stores' && req.method == 'GET') {
     getAllStores(req, res);
   } else if (req.url.match(/\/api\/v1\/stores\/\w+/) && req.method === 'GET') {
@@ -11,10 +13,7 @@ const server = http.createServer((req, res) => {
     const id = idPath[0].split('/')[4];
     getStoreById(req, res, id);
   } else if (req.url === '/api/v1/stores' && req.method == 'POST') {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'application/json');
-    res.write('<h1>POST</h1>');
-    res.end();
+    createStore(req, res);
   } else if (req.url === '/api/v1/stores' && req.method == 'DELETE') {
     res.statusCode = 200;
     res.setHeader('http', 'html');
