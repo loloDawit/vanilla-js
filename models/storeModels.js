@@ -1,4 +1,6 @@
 const data = require('../data');
+const { saveDataToFile } = require('../helper');
+
 // create CURD fuctions
 /*
 create store
@@ -23,4 +25,18 @@ return new Promise((resolve, reject) =>{
 })
 }
 
-module.exports = { findAll, findById };
+//create store
+const create = (newStore) =>{
+    return new Promise((resolve, reject) =>{
+        data.push(newStore);
+        saveDataToFile('./data.js', data);
+        resolve(newStore);
+    }
+
+    )
+
+}
+
+
+
+module.exports = { findAll, findById, create };
