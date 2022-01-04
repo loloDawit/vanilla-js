@@ -25,8 +25,8 @@ const server = http.createServer((req, res) => {
     deleteStore(req, res, id);
   } else {
     res.statusCode = 400;
-    res.setHeader('http', 'html');
-    res.write('<h1> Bad Connection</h1>');
+    res.setHeader('http', 'application/json');
+    res.write({ message: 'Not found.' });
     res.end();
   }
 });
