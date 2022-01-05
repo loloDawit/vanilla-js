@@ -17,40 +17,39 @@ const findAll = () => {
 };
 
 // read a specific store using store id
-const findById = (id) =>{
-return new Promise((resolve, reject) =>{
+const findById = (id) => {
+  return new Promise((resolve, reject) => {
     const store = data.find((store) => store.storeNo === id);
 
     resolve(store);
-});
-}
+  });
+};
 
 //create store
-const create = (newStore) =>{
-    return new Promise((resolve, reject) =>{
-        data.push(newStore);
-        saveDataToFile('./data.json', data);
-        resolve(newStore);
-    });
-}
- // update a store
- const update = (id, store) => {
-   return new Promise((resolve, reject) =>{
-     const findStore = data.findIndex((store) => store.storeNo === id);
-     data[findStore] = {...store}; // more explaniation
-     saveDataToFile('./data.json', data);
-     resolve(data);
-   });
- }
-  
- // delete a store -> storeNo
- const remove = (id, store) =>{
-   return new Promise((resolve, reject) =>{
-     data = data.filter((store) => store.storeNo != id);
-     saveDataToFile('./data.json', data);
-     resolve(data);
-   })
- }
+const create = (newStore) => {
+  return new Promise((resolve, reject) => {
+    data.push(newStore);
+    saveDataToFile('./data.json', data);
+    resolve(newStore);
+  });
+};
+// update a store
+const update = (id, store) => {
+  return new Promise((resolve, reject) => {
+    const findStore = data.findIndex((store) => store.storeNo === id);
+    data[findStore] = { ...store }; // more explaniation
+    saveDataToFile('./data.json', data);
+    resolve(data);
+  });
+};
 
+// delete a store -> storeNo
+const remove = (id, store) => {
+  return new Promise((resolve, reject) => {
+    data = data.filter((store) => store.storeNo != id);
+    saveDataToFile('./data.json', data);
+    resolve(data);
+  });
+};
 
 module.exports = { findAll, findById, create, update, remove };
