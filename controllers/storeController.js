@@ -23,6 +23,10 @@ const getStoreById = async (req, res, id) => {
     res.end();
   } catch (error) {
     console.log(error);
+    res.statusCode = 404;
+    res.setHeader('Content-Type', 'application/json');
+    res.write(JSON.stringify({ error: 'store not found' }));
+    res.end();
   }
 };
 
@@ -83,4 +87,10 @@ const deleteStore = async (req, res, id) => {
   }
 };
 
-module.exports = { getAllStores, getStoreById, createStore, updateStore, deleteStore };
+module.exports = {
+  getAllStores,
+  getStoreById,
+  createStore,
+  updateStore,
+  deleteStore,
+};
