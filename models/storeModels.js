@@ -20,8 +20,11 @@ const findAll = () => {
 const findById = (id) => {
   return new Promise((resolve, reject) => {
     const store = data.find((store) => store.storeNo === id);
-
-    resolve(store);
+    if (store !== undefined) {
+      resolve(store);
+    } else {
+      reject(new Error());
+    }
   });
 };
 
