@@ -1,7 +1,7 @@
 const http = require('http');
 const { getAllStores, getStoreById, createStore, updateStore, deleteStore } = require('./controllers/storeController');
 
-const PORT = 500;
+const PORT = 5000;
 
 const server = http.createServer((req, res) => {
   console.log(req.url);
@@ -25,8 +25,8 @@ const server = http.createServer((req, res) => {
     deleteStore(req, res, id);
   } else {
     res.statusCode = 400;
-    res.setHeader('http', 'application/json');
-    res.write({ message: 'Not found.' });
+    res.setHeader('Content-Type', 'application/json');
+    res.write(JSON.stringify({ message: 'Not found.' }));
     res.end();
   }
 });
