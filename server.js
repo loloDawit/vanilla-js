@@ -1,7 +1,7 @@
 const http = require('http');
 const { getAllStores, getStoreById, createStore, updateStore, deleteStore } = require('./controllers/storeController');
-
-const PORT = 5000;
+require('dotenv').config();
+const PORT = process.env.PORT;
 
 const server = http.createServer((req, res) => {
   console.log(req.url);
