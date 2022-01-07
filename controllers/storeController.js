@@ -1,13 +1,10 @@
-const { helper } = require('../helper');
+const { helper, httpResponse } = require('../helper');
 const Store = require('../models/storeModels');
 
 const getAllStores = async (req, res) => {
   try {
     const store = await Store.findAll();
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'application/json');
-    res.write(JSON.stringify(store));
-    res.end();
+    httpResponse(200, res, store);
   } catch (error) {
     console.log(error);
   }
@@ -16,17 +13,10 @@ const getAllStores = async (req, res) => {
 const getStoreById = async (req, res, id) => {
   try {
     const store = await Store.findById(id);
-
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'application/json');
-    res.write(JSON.stringify(store));
-    res.end();
+    httpResponse(200, res, store);
   } catch (error) {
     console.log(error);
-    res.statusCode = 404;
-    res.setHeader('Content-Type', 'application/json');
-    res.write(JSON.stringify({ error: 'store not found' }));
-    res.end();
+    httpResponse(404, res, '');
   }
 };
 
@@ -34,10 +24,7 @@ const createStore = async (req, res) => {
   try {
     const body = await helper(req);
     const newStore = await Store.create(JSON.parse(body));
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'application/json');
-    res.write(JSON.stringify(newStore));
-    res.end();
+    httpResponse(201, res, newStore);
   } catch (error) {
     console.log(error);
   }
@@ -49,17 +36,11 @@ const updateStore = async (req, res, id) => {
   try {
     const store = await Store.findById(id); // finding the store using storeNo
     if (!store) {
-      res.statusCode = 404;
-      res.setHeader('Content-Type', 'application/json');
-      res.write(JSON.stringify({ errorMessage: 'Store Not Found!' }));
-      res.end();
+      httpResponse(404, res, '');
     } else {
       const body = await helper(req);
       const updateStore = await Store.update(id, JSON.parse(body));
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json');
-      res.write(JSON.stringify(updateStore));
-      res.end();
+      httpResponse(200, res, updateStore);
     }
   } catch (error) {
     console.log(error);
@@ -70,20 +51,11 @@ const deleteStore = async (req, res, id) => {
   try {
     // find if the store exists or not
     const store = await Store.findById(id);
-    if (!store) {
-      res.statusCode = 404;
-      res.setHeader('Content-Type', 'application/json');
-      res.write(JSON.stringify({ errorMessage: 'Store Not Found!' }));
-      res.end();
-    } else {
-      const deleteStore = await Store.remove(id);
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json');
-      res.write(JSON.stringify(deleteStore));
-      res.end();
-    }
+    const deleteStore = await Store.remove(id);
+    httpResponse(200, res, deleteStore);
   } catch (error) {
     console.log(error);
+    httpResponse(404, res, '');
   }
 };
 

@@ -1,4 +1,4 @@
-const data = require('../data');
+var data = require('../data');
 const { saveDataToFile } = require('../helper');
 
 // create CURD fuctions
