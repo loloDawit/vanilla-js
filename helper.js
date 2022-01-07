@@ -24,5 +24,22 @@ const helper = (req) => {
     }
   });
 };
-
-module.exports = { saveDataToFile, helper };
+/**
+ * httpResponse sets the success http response
+ * @param {*} statusCode
+ * @param {*} response
+ * @param {*} data
+ */
+const httpResponse = (statusCode, response, data) => {
+  // depending on the statusCode we want to respond diffrenly
+  response.setHeader('Content-Type', 'application/json');
+  if (statusCode === 200 || statusCode === 201) {
+    response.statusCode = statusCode;
+    response.write(JSON.stringify(data));
+  } else if (statusCode === 404) {
+    response.statusCode = statusCode;
+    response.write(JSON.stringify({ error: 'store not found' }));
+  }
+  response.end();
+};
+module.exports = { saveDataToFile, helper, httpResponse };
