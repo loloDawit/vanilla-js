@@ -42,7 +42,7 @@ const update = (id, store) => {
     const findStore = data.findIndex((store) => store.storeNo === id);
     data[findStore] = { ...store }; // more explaniation
     saveDataToFile('./data.json', data);
-    resolve(data);
+    resolve(store);
   });
 };
 
