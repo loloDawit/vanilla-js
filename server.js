@@ -4,9 +4,6 @@ require('dotenv').config();
 const PORT = process.env.PORT;
 
 const server = http.createServer((req, res) => {
-  console.log(req.url);
-  console.log(req.method);
-
   if (req.url === '/api/v1/stores' && req.method == 'GET') {
     getAllStores(req, res);
   } else if (req.url.match(/\/api\/v1\/stores\/\w+/) && req.method === 'GET') {
@@ -31,3 +28,5 @@ const server = http.createServer((req, res) => {
   }
 });
 server.listen(PORT, () => console.log(`server running on port ${PORT}`));
+
+module.exports = server;

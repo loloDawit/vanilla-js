@@ -41,8 +41,9 @@ const update = (id, store) => {
   return new Promise((resolve, reject) => {
     const findStore = data.findIndex((store) => store.storeNo === id);
     data[findStore] = { ...store }; // more explaniation
+    console.log(store);
     saveDataToFile('./data.json', data);
-    resolve(data);
+    resolve(store);
   });
 };
 
