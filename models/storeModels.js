@@ -30,10 +30,15 @@ const findById = (id) => {
 
 //create store
 const create = (newStore) => {
+  // case I {}
   return new Promise((resolve, reject) => {
-    data.push(newStore);
-    saveDataToFile('./data.json', data);
-    resolve(newStore);
+    if (Object.keys(newStore).length !== 0) {
+      data.push(newStore);
+      saveDataToFile('./data.json', data);
+      resolve(newStore);
+    } else {
+      reject(new Error());
+    }
   });
 };
 // update a store
