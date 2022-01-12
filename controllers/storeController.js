@@ -26,7 +26,10 @@ const createStore = async (req, res) => {
     const newStore = await Store.create(JSON.parse(body));
     httpResponse(201, res, newStore);
   } catch (error) {
-    console.log(error);
+    console.log('error', error);
+    httpResponse(400, res, {
+      error: 'Body is not provided',
+    });
   }
 };
 
@@ -35,6 +38,7 @@ const updateStore = async (req, res, id) => {
   // if not log an error with message
   try {
     const store = await Store.findById(id); // finding the store using storeNo
+    console.log('store no');
     if (!store) {
       httpResponse(404, res, '');
     } else {
@@ -43,7 +47,10 @@ const updateStore = async (req, res, id) => {
       httpResponse(200, res, updateStore);
     }
   } catch (error) {
-    console.log(error);
+    console.log('error',error);
+    httpResponse(400, res, {
+      error: 'Body is not provided',
+    });
   }
 };
 

@@ -36,9 +36,9 @@ const httpResponse = (statusCode, response, data) => {
   if (statusCode === 200 || statusCode === 201) {
     response.statusCode = statusCode;
     response.write(JSON.stringify(data));
-  } else if (statusCode === 404) {
+  } else if (statusCode === 404 || statusCode === 400) {
     response.statusCode = statusCode;
-    response.write(JSON.stringify({ error: 'store not found' }));
+    response.write(JSON.stringify(data ? data : { error: 'store not found' }));
   }
   response.end();
 };
