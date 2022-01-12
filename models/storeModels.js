@@ -48,13 +48,12 @@ const update = (id, store) => {
     if(Object.keys(store).length !== 0){
       const findStore = data.findIndex((store) => store.storeNo === id);
       data[findStore] = { ...store }; 
-      console.log(store);
       saveDataToFile('./data.json', data);
       resolve(store);
     }else{
       reject(new (error));
     }
-   
+
   });
 };
 
