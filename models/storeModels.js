@@ -39,11 +39,17 @@ const create = (newStore) => {
 // update a store
 const update = (id, store) => {
   return new Promise((resolve, reject) => {
-    const findStore = data.findIndex((store) => store.storeNo === id);
-    data[findStore] = { ...store }; // more explaniation
-    console.log(store);
-    saveDataToFile('./data.json', data);
-    resolve(store);
+    // check for empty store
+    if(Object.keys(store).length !== 0){
+      const findStore = data.findIndex((store) => store.storeNo === id);
+      data[findStore] = { ...store }; 
+      console.log(store);
+      saveDataToFile('./data.json', data);
+      resolve(store);
+    }else{
+      reject(new (error));
+    }
+   
   });
 };
 
