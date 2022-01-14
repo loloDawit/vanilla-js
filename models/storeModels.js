@@ -12,7 +12,7 @@ delete store
 // read all store
 const findAll = () => {
   return new Promise((resolve, reject) => {
-    resolve(data);
+    data.length !== 0 ? resolve(data) : reject({ message: 'No stores found, DB is Empty', code: 404 });
   });
 };
 
@@ -37,7 +37,7 @@ const create = (newStore) => {
       saveDataToFile('./data.json', data);
       resolve(newStore);
     } else {
-      reject(new Error());
+      reject({ message: 'provied the new store', error: new Error() });
     }
   });
 };
@@ -51,7 +51,7 @@ const update = (id, store) => {
       saveDataToFile('./data.json', data);
       resolve(store);
     } else {
-      reject({message: 'provide Body!', error: new Error()});
+      reject({ message: 'provide Body!', error: new Error() });
     }
   });
 };

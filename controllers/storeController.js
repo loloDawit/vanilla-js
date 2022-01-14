@@ -4,9 +4,10 @@ const Store = require('../models/storeModels');
 const getAllStores = async (req, res) => {
   try {
     const store = await Store.findAll();
+    console.log(store);
     httpResponse(200, res, store);
   } catch (error) {
-    console.log(error);
+    httpResponse(error.code, res, { error: error.message });
   }
 };
 
