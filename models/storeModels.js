@@ -23,7 +23,7 @@ const findById = (id) => {
     if (store !== undefined) {
       resolve(store);
     } else {
-      reject(new Error());
+      reject({ message: 'store not found', error: new Error(), code: 400 });
     }
   });
 };
@@ -45,15 +45,14 @@ const create = (newStore) => {
 const update = (id, store) => {
   return new Promise((resolve, reject) => {
     // check for empty store
-    if(Object.keys(store).length !== 0){
+    if (Object.keys(store).length !== 0) {
       const findStore = data.findIndex((store) => store.storeNo === id);
-      data[findStore] = { ...store }; 
+      data[findStore] = { ...store };
       saveDataToFile('./data.json', data);
       resolve(store);
-    }else{
-      reject(new (error));
+    } else {
+      reject({message: 'provide Body!', error: new Error()});
     }
-
   });
 };
 
