@@ -13,18 +13,9 @@ const store = {
   contact: {
     tie_line: '8-781-0111',
     phone: '(206) 788-2111',
-    fax_tie_line: '8-781-1795',
-    fax: '(206) 788-1795'
   },
   location: { address: '500 PINE ST', city: 'Seattle', state: 'WA', zipcode: '98101-1744' },
-  businessType: {
-    businessUnit: 'FLS',
-    region: 'NORTHWEST FLS',
-    rackDistrict: 'N/A',
-    presClass: 'Everett',
-    flagship_store: 'Yes'
-  },
-  store_open_date: '1963-08-06'
+  store_open_date: '1963-08-06',
 };
 
 describe('Store', () => {
@@ -106,18 +97,6 @@ describe('Store', () => {
         });
       done();
     });
-    it('it should have an object key with businessType.', (done) => {
-      chai
-        .request(server)
-        .get('/api/v1/stores')
-        .end((err, res) => {
-          var result = res.body;
-          result.forEach((element) => {
-            expect(element).to.have.property('businessType');
-          });
-        });
-      done();
-    });
     it('it should have an object key with store_open_date.', (done) => {
       chai
         .request(server)
@@ -162,7 +141,34 @@ describe('Store', () => {
         });
       done();
     });
+    it('it should create a new store', (done) => {
+      chai
+        .request(server)
+        .post('/api/v1/stores')
+        .send(store)
+        .end((err, res) => {
+          res.body.should.have.a('object');
+        });
+      done();
+    });
   });
+  describe('/PUT/:id', () => {
+    it(`it should update store ${id} and return store ${id} with updated information`, (done) => {
+      let update = {
+        storeName: 'new test added',
+      };
+      chai
+        .request(server)
+        .put(`/api/v1/stores/${id}`)
+        .send((store.storeName = update))
+        .end((err, res) => {
+          res.should.have.status(200);
+        });
+
+      done();
+    });
+  });
+
   describe('/DELETE/:id', () => {
     it('it should delete a store with an id with status code 200.', (done) => {
       chai
