@@ -17,7 +17,7 @@ const helper = (req) => {
         body += buffer.toString();
       });
       req.on('end', () => {
-        resolve(body);
+        resolve(JSON.parse(body)); // server crashed when passing undefined body => kee[ crashing when updating the store with undefined body
       });
     } catch (error) {
       reject(error);
