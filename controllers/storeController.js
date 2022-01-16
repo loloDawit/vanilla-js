@@ -4,9 +4,10 @@ const Store = require('../models/storeModels');
 const getAllStores = async (req, res) => {
   try {
     const store = await Store.findAll();
+    console.log(store);
     httpResponse(200, res, store);
   } catch (error) {
-    console.log(error);
+    httpResponse(error.code, res, { error: error.message });
   }
 };
 
@@ -23,7 +24,7 @@ const getStoreById = async (req, res, id) => {
 const createStore = async (req, res) => {
   try {
     const body = await helper(req);
-    const newStore = await Store.create(JSON.parse(body));
+    const newStore = await Store.create(body);
     httpResponse(201, res, newStore);
   } catch (error) {
     console.log('error', error);
@@ -38,18 +39,33 @@ const updateStore = async (req, res, id) => {
   // if not log an error with message
   try {
     const store = await Store.findById(id); // finding the store using storeNo
-    console.log('store no');
-    if (!store) {
-      httpResponse(404, res, '');
-    } else {
-      const body = await helper(req);
-      const updateStore = await Store.update(id, JSON.parse(body));
-      httpResponse(200, res, updateStore);
-    }
+    const body = await helper(req);
+    Object.keys(body).length === 0 && // what if the body is undefined? the server crahes
+      httpResponse(404, res, {
+        error: 'Body is not provided',
+      });
+
+    const updatedStore = {
+      storeNo: body.storeNo ? body.storeNo : store.storeNo,
+      storeName: body.storeName ? body.storeName : store.storeName,
+      contact: {
+        tie_line: body.contact ? body.contact.tie_line : store.contact.tie_line,
+        phone: body.contact ? body.contact.phone : store.contact.phone,
+      },
+      location: {
+        address: body.location ? body.location.address : store.location.address,
+        city: body.location ? body.location.city : store.location.city,
+        state: body.location ? body.location.state : store.location.state,
+        zipcode: body.location ? body.location.zipcode : store.location.zipcode,
+      },
+      store_open_date: body.store_open_date || store.store_open_date,
+    };
+    const updateStore = await Store.update(id, updatedStore);
+    httpResponse(200, res, updateStore);
   } catch (error) {
-    console.log('error',error);
+    console.log(error);
     httpResponse(400, res, {
-      error: 'Body is not provided',
+      error: error.message,
     });
   }
 };
